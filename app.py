@@ -73,7 +73,7 @@ def predict():
             # return render_template('index.html', prediction_html=prediction)
             return jsonify(json.loads(json.dumps(score_dct)))
 
-'''
+
 def df_global_importance(n):
     coef = list(model.named_steps['classifier'].coef_[0])
     df_global = pd.DataFrame(zip(features, coef), columns=["feature", "importance"])
@@ -196,7 +196,7 @@ app.add_url_rule('/predict', 'predict', predict)
 
 # Define endpoint for flask
 app.add_url_rule('/predict', 'predict', predict)
-'''
+
 # lancement de l'application
 if __name__ == "__main__":
     app.run(debug=True)
