@@ -1,25 +1,18 @@
 from io import BytesIO
-
 import pandas as pd
-from flask import Flask, render_template, request, jsonify, make_response
+from flask import Flask, request, jsonify, make_response
 import json
-
 from lime.lime_tabular import LimeTabularExplainer
 from sklearn.preprocessing import StandardScaler
 import seaborn as sns
-
-import numpy as np
+import matplotlib.pyplot as plt
+import base64
+from package.models import load_model
+from package.models import read_data
 import shap
 import matplotlib
 matplotlib.use('agg')
 
-import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
-import base64
-
-from package.models import load_model
-from package.feature_extraction import get_features
-from package.models import read_data
 
 data = read_data()
 print(data.shape)
@@ -104,8 +97,10 @@ def plot_shap_local():
                 format="png",
                 dpi=150,
                 bbox_inches='tight')
-    dataToTake = base64.b64encode(buf.getbuffer()).decode("ascii")
-    return (f"<img src='data:image/png;base64,{dataToTake}'/>")
+    dataToTake = base64.b64encode(buf.getbuffer())\
+        .decode("ascii")
+    return (f"<img src='data:image/png;base64,"
+            f"{dataToTake}'/>")
 
 
 # http://127.0.0.1:5000/lime_local/?id=100139&n=5
