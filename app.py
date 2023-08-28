@@ -89,7 +89,9 @@ def id_data():
 def plot_shap_local():
     id = int(request.args['id_client'])
     features_idx = data[data['SK_ID_CURR'] == id].drop(['TARGET', 'SK_ID_CURR'], axis=1)
-    explainer = shap.Explainer(model.named_steps['classifier'], X, feature_names=features)
+    explainer = shap.Explainer(model.named_steps['classifier'],
+                               X,
+                               feature_names=features)
     shap_values_idx = explainer(features_idx)
     shap.summary_plot(shap_values_idx, X, plot_type="bar", show=False)
     buf = BytesIO()
@@ -114,7 +116,9 @@ def plot_lime_local():
                                      feature_names=features)
     idx = data[data["SK_ID_CURR"] == id].index
     df_instance = X_scaled[idx].reshape(len(features), )
-    explanation = explainer.explain_instance(df_instance, model.predict_proba, num_features=n)
+    explanation = explainer.explain_instance(df_instance,
+                                             model.predict_proba,
+                                             num_features=n)
     explanation_html = explanation.as_html()
     response = make_response(explanation_html)
     return response
